@@ -1,0 +1,63 @@
+{
+  "Header": {
+    "title": "AgriPrice SL",
+    "tagline": "Sri Lanka Crop Price Intelligence & Marketplace",
+    "dashboard": "Price Dashboard",
+    "marketplace": "Direct Marketplace",
+    "centers": "Economic Centers",
+    "forecast": "AI Forecast Engine",
+    "postListing": "Post Crop Listing",
+    "login": "Farmer / Buyer Login",
+    "selectLang": "Language"
+  },
+  "Hero": {
+    "badge": "OFFICIAL SRI LANKAN AGRICULTURAL INTELLIGENCE",
+    "titlePrefix": "Empowering Farmers & Buyers with",
+    "titleHighlight": "Real-Time Crop Prices & AI Forecasts",
+    "subtitle": "Direct access to Sri Lanka's Special Economic Centre wholesale rates, 14-30 day ML price projections, and escrow-protected direct trade.",
+    "exploreDashboard": "Explore Market Dashboard",
+    "browseMarketplace": "Browse Direct Listings",
+    "stat1": "6 Economic Centers",
+    "stat2": "94.2% AI Accuracy",
+    "stat3": "Zero Middleman Markup"
+  },
+  "Dashboard": {
+    "title": "Commodity Price Analytics & Time-Series Projection",
+    "subtitle": "Historical daily wholesale rates vs 14-Day AI forecast curves with confidence intervals.",
+    "selectCrop": "Select Crop:",
+    "selectCenter": "Select Economic Center:",
+    "horizon": "Forecast Horizon:",
+    "days7": "7 Days",
+    "days14": "14 Days",
+    "days30": "30 Days",
+    "trendUp": "Upward Trend Expected (+{val}%)",
+    "trendDown": "Downward Price Movement (-{val}%)",
+    "trendStable": "Stable Price Range ({val}%)",
+    "currentAvg": "Current Wholesale Avg",
+    "projectedAvg": "Projected Avg Price",
+    "confidenceScore": "Model Confidence",
+    "chartTitle": "Daily Wholesale Price (LKR/kg)",
+    "historicalLine": "Historical Price",
+    "forecastLine": "AI Forecast Projection",
+    "upperBound": "Upper Confidence Bound",
+    "lowerBound": "Lower Confidence Bound"
+  },
+  "Marketplace": {
+    "title": "Direct Farmer Inventory",
+    "subtitle": "Eliminating intermediaries. Buy directly from verified Sri Lankan highland & lowland producers.",
+    "filterCrop": "All Crops",
+    "filterDistrict": "All Districts",
+    "gradeA": "Grade A Premium",
+    "gradeB": "Grade B Standard",
+    "availableQty": "Available Stock",
+    "pricePerKg": "Price / kg",
+    "buyEscrow": "Buy with Escrow",
+    "farmerContact": "Contact Farmer",
+    "escrowModalTitle": "Secure AgriPrice Escrow Order",
+    "escrowNote": "Funds are held securely in AgriPrice Escrow until delivery is confirmed by the buyer."
+  },
+  "Footer": {
+    "disclaimer": "Price data synchronized with HARTI (Hector Kobbekaduwa Agrarian Research and Training Institute) & Central Bank of Sri Lanka reports.",
+    "rights": "All rights reserved. Dedicated to Sri Lankan Agricultural Prosperity."
+  }
+}

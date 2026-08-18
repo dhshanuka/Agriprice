@@ -1,0 +1,170 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  FARMER
+  BUYER
+  ADMIN
+}
+
+enum CropCategory {
+  VEGETABLE
+  FRUIT
+  SPICE
+  GRAIN
+  TUBER
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  SOLD
+  EXPIRED
+}
+
+enum QualityGrade {
+  GRADE_A
+  GRADE_B
+  GRADE_C
+}
+
+enum EscrowStatus {
+  PENDING
+  HELD_IN_ESCROW
+  DELIVERED
+  RELEASED
+  REFUNDED
+}
+
+model User {
+  id              String      @id @default(uuid())
+  name            String      @unique
+  passwordHash    String
+  phoneNumber     String?
+  role            Role        @default(FARMER)
+  district        String?
+  address         String?
+  otpCode         String?
+  otpExpiresAt    DateTime?
+  isPhoneVerified Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  listings        Listing[]   @relation("FarmerListings")
+  orders          Order[]     @relation("BuyerOrders")
+
+  @@index([name])
+}
+
+model EconomicCenter {
+  id          String        @id @default(uuid())
+  code        String        @unique
+  nameEn      String
+  nameSi      String
+  nameTa      String
+  district    String
+  province    String
+  latitude    Float?
+  longitude   Float?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  priceRecords PriceRecord[]
+  listings     Listing[]
+
+  @@index([code])
+}
+
+model Crop {
+  id            String       @id @default(uuid())
+  code          String       @unique
+  nameEn        String
+  nameSi        String
+  nameTa        String
+  category      CropCategory @default(VEGETABLE)
+  standardUnit  String       @default("KG")
+  imageUrl      String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  priceRecords  PriceRecord[]
+  listings      Listing[]
+
+  @@index([code])
+}
+
+model PriceRecord {
+  id              String         @id @default(uuid())
+  centerId        String
+  cropId          String
+  date            DateTime
+  minBuyingPrice  Float
+  maxBuyingPrice  Float
+  avgBuyingPrice  Float
+  minSellingPrice Float
+  maxSellingPrice Float
+  avgSellingPrice Float
+  source          String         @default("HARTI_REPORT")
+  createdAt       DateTime       @default(now())
+
+  center          EconomicCenter @relation(fields: [centerId], references: [id], onDelete: Cascade)
+  crop            Crop           @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  @@unique([centerId, cropId, date])
+  @@index([date])
+  @@index([cropId, centerId])
+}
+
+model Listing {
+  id             String         @id @default(uuid())
+  farmerId       String
+  cropId         String
+  centerId       String?
+  title          String
+  description    String?        @db.Text
+  quantityKg     Float
+  pricePerKg     Float
+  grade          QualityGrade   @default(GRADE_A)
+  status         ListingStatus  @default(ACTIVE)
+  district       String
+  harvestDate    DateTime?
+  images         Json?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  farmer         User           @relation("FarmerListings", fields: [farmerId], references: [id], onDelete: Cascade)
+  crop           Crop           @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  center         EconomicCenter?@relation(fields: [centerId], references: [id], onDelete: SetNull)
+  orders         Order[]
+
+  @@index([farmerId])
+  @@index([cropId])
+  @@index([status])
+}
+
+model Order {
+  id              String       @id @default(uuid())
+  buyerId         String
+  listingId       String
+  quantityKg      Float
+  pricePerKg      Float
+  totalAmount     Float
+  escrowStatus    EscrowStatus @default(PENDING)
+  deliveryAddress String
+  notes           String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  buyer           User         @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Cascade)
+  listing         Listing      @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([buyerId])
+  @@index([listingId])
+  @@index([escrowStatus])
+}
