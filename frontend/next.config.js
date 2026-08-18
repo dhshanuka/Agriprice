@@ -11,12 +11,17 @@ const nextConfig = {
     domains: ['images.unsplash.com', 'via.placeholder.com'],
   },
   async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: process.env.BACKEND_URL || 'http://localhost:3000/api/:path*',
-      },
-    ];
+    // If external Express backend URL is specified in Vercel environment variables, proxy to it.
+    // Otherwise, Next.js native serverless API route handlers (/app/api/*) respond directly.
+    if (process.env.BACKEND_URL) {
+      return [
+        {
+          source: '/api/:path*',
+          destination: `${process.env.BACKEND_URL}/api/:path*`,
+        },
+      ];
+    }
+    return [];
   },
 };
 
